@@ -2,27 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mi primer sitio web</title>
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       scroll-behavior: smooth;
     }
-
-    body, html {
+    html, body {
       height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
     }
-
-    body {
-      font-family: Arial, sans-serif;
-      color: #ffffff;
-      position: relative;
-    }
-
-    /* Fondo fijo */
     .background {
       position: fixed;
       top: 0; left: 0;
@@ -30,177 +24,240 @@
       background: url('images/foto-perfil.png') center/cover no-repeat;
       z-index: -2;
     }
-
     .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0,0,0,0.6);
       z-index: -1;
     }
-
-    /* Barra de navegación */
     nav {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 15px 0;
+      top: 0; left: 0; width: 100%;
+      background: rgba(0,0,0,0.7);
       display: flex;
       justify-content: center;
       gap: 30px;
+      padding: 15px 0;
       z-index: 1000;
+      font-weight: 600;
     }
     nav a {
-      color: #fff;
+      color: #ccc;
       text-decoration: none;
-      font-weight: bold;
-      transition: color .3s, border-bottom .3s;
-      padding-bottom: 3px;
+      padding-bottom: 4px;
+      transition: all 0.3s ease;
+      font-size: 1rem;
     }
-    nav a:hover { color: #00ffff; }
+    nav a:hover,
     nav a.active {
-      color: #00ffff;
-      border-bottom: 2px solid #00ffff;
+      color: #0ff;
+      border-bottom: 2px solid #0ff;
     }
 
-    /* Sección de bienvenida */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding-top: 60px;
-      text-shadow: 0 0 8px rgba(0,0,0,.6);
-    }
-    h1 { margin-bottom: 10px; font-size: 2.5rem; }
-    p  { font-size: 1.2rem; }
-
-    /* Secciones genéricas */
+    /* Secciones que ocupan toda la pantalla */
     section {
-      padding: 100px 20px;
-      background: rgba(0,0,0,.4);
+      height: 100vh;
+      padding: 100px 40px 40px 40px;
+      background: rgba(0,0,0,0.4);
+      overflow-y: auto;
+      scroll-snap-align: start; /* Para hacer scroll snap */
+    }
+    /* Contenedor que usa scroll snap para que solo se vea una sección a la vez */
+    main {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
     }
 
-    /* ---------- CONTACTO ---------- */
-    /* Contenedor para título + datos alineados a la izquierda */
-    #contacto .contact-wrapper {
-      width: 400px;
-      margin-left: 20px;
-      margin-bottom: 30px;
-    }
-    /* Título centrado dentro del contenedor */
-    #contacto .contact-wrapper h2 {
-      text-align: center;
+    h2 {
+      font-size: 2.2rem;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    /* Bloque con datos personales */
-    #contacto .contact-info {
-      background: rgba(255,255,255,.1);
+
+    /* Iconos animados */
+    .icon {
+      font-size: 2.5rem;
+      animation: bounce 2.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Contenido dentro de secciones */
+    .content-block {
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    /* Estilo para subtemas en Sobre mí */
+    .subtopic {
+      margin-bottom: 20px;
+      background: rgba(255 255 255 / 0.1);
       padding: 15px 20px;
       border-radius: 8px;
-      font-size: 1rem;
-      line-height: 1.5;
-      text-align: left;
+      box-shadow: 0 0 10px #0ff44a33;
     }
 
-    /* Formulario de contacto (centrado en la página) */
+    /* Contacto */
+    #contacto {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 80px;
+    }
+    #contacto .contact-details {
+      max-width: 350px;
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 1rem;
+      line-height: 1.5;
+      box-shadow: 0 0 12px #0ff6;
+    }
     #contacto form {
-      max-width: 400px;
-      margin: 0 auto;
+      max-width: 350px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
+      background: rgba(255 255 255 / 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #0ff6;
     }
-    #contacto input,
-    #contacto textarea {
-      padding: 8px;
+    #contacto input, #contacto textarea {
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
+      padding: 10px;
       font-size: 1rem;
+      resize: vertical;
     }
     #contacto button {
-      background: #00ffff;
+      background: #0ff;
       border: none;
-      padding: 10px;
-      color: #000;
-      font-weight: bold;
-      border-radius: 5px;
+      padding: 12px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background .3s;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      color: #000;
     }
-    #contacto button:hover { background: #00cccc; }
+    #contacto button:hover {
+      background: #0cc;
+      color: #fff;
+    }
+
+    /* Scroll interno de secciones (opcional para que no se salga del viewport) */
+    section::-webkit-scrollbar {
+      width: 8px;
+    }
+    section::-webkit-scrollbar-thumb {
+      background: #0ff;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
-  <!-- Fondo -->
   <div class="background"></div>
   <div class="overlay"></div>
 
-  <!-- Navegación -->
   <nav>
-    <a href="#inicio">Inicio</a>
+    <a href="#inicio" class="active">Inicio</a>
     <a href="#sobremi">Sobre mí</a>
     <a href="#proyectos">Proyectos</a>
     <a href="#contacto">Contacto</a>
   </nav>
 
-  <!-- Secciones -->
-  <div class="hero" id="inicio">
-    <h1>¡Hola, mundo!</h1>
-    <p>Amo la programación.</p>
-  </div>
-
-  <section id="sobremi">
-    <h2>Sobre mí</h2>
-    <p>Texto descriptivo sobre ti irá aquí.</p>
-  </section>
-
-  <section id="proyectos">
-    <h2>Proyectos</h2>
-    <p>Aquí mostrarás tus proyectos futuros.</p>
-  </section>
-
-  <section id="contacto">
-    <!-- Bloque alineado a la izquierda -->
-    <div class="contact-wrapper">
-      <h2>Contacto</h2>
-      <div class="contact-info">
-        <p><strong>Dirección:</strong> 5832 12th St East, Bradenton, FL, E.E. U.U.</p>
-        <p><strong>Teléfono:</strong> +1 941‑725‑4307</p>
-        <p><strong>Horario de atención:</strong> Lunes a Viernes, 8:00 AM – 6:00 PM</p>
+  <main>
+    <section id="inicio">
+      <h2><span class="icon">👋</span> Bienvenido</h2>
+      <div class="content-block">
+        <p>¡Hola, mundo! Amo la programación y me encanta crear soluciones que mejoren la vida digital.</p>
       </div>
-    </div>
+    </section>
 
-    <!-- Formulario centrado con URL de Formspree -->
-    <form id="contactForm" action="https://formspree.io/f/mwpbzyqo" method="POST">
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" required />
+    <section id="sobremi">
+      <h2><span class="icon">👤</span> Sobre mí</h2>
+      
+      <div class="subtopic">
+        <h3>🛠️ Habilidades</h3>
+        <p>Programación en JavaScript, HTML, CSS, conocimientos en frameworks como React y Vue, además de gestión básica de bases de datos.</p>
+      </div>
+      <div class="subtopic">
+        <h3>📄 Currículum</h3>
+        <p>Graduado en Ingeniería en Sistemas, con 3 años de experiencia en desarrollo web y proyectos de software a medida.</p>
+      </div>
+      <div class="subtopic">
+        <h3>🧑‍💼 Servicios</h3>
+        <p>Desarrollo de páginas web, mantenimiento de aplicaciones, consultoría en UX/UI y soporte técnico personalizado.</p>
+      </div>
+      <div class="subtopic">
+        <h3>🎯 Objetivos</h3>
+        <p>Seguir creciendo profesionalmente y contribuir a proyectos innovadores que impacten positivamente a la comunidad.</p>
+      </div>
+      <div class="subtopic">
+        <h3>💼 Experiencia laboral</h3>
+        <p>Trabajo en empresas de tecnología desarrollando aplicaciones frontend y backend, con metodologías ágiles y equipos multidisciplinarios.</p>
+      </div>
+    </section>
 
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required />
+    <section id="proyectos">
+      <h2><span class="icon">📁</span> Proyectos</h2>
+      <div class="content-block">
+        <p>Aquí mostraré mis proyectos futuros, desde páginas web hasta aplicaciones móviles, con enfoque en calidad y usabilidad.</p>
+      </div>
+    </section>
 
-      <label for="message">Mensaje:</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
+    <section id="contacto">
+      <div class="contact-details">
+        <h2><span class="icon">📞</span> Contacto</h2>
+        <p><strong>Dirección:</strong> 5832 12th St East, Bradenton, FL, E.U.A.</p>
+        <p><strong>Teléfono:</strong> +1 941-725-4307</p>
+        <p><strong>Horario de atención:</strong> Lunes a Viernes, 8:00 AM - 6:00 PM</p>
+      </div>
+      <form action="https://formspree.io/f/mwpbzyqo" method="POST">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required />
 
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required />
 
-  <!-- Script para resaltar sección activa en la barra -->
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
   <script>
-    const sections = document.querySelectorAll("section, .hero");
-    const navLinks = document.querySelectorAll("nav a");
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
 
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(sec => {
-        const top = sec.offsetTop - 100;
-        if (pageYOffset >= top) current = sec.id;
+    // Actualiza la clase active en el menú según la sección visible
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
       });
       navLinks.forEach(link => {
-        link.classList.toggle("active", link.hash === "#" + current);
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
       });
     });
   </script>
